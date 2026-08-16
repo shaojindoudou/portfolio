@@ -1198,7 +1198,7 @@
       const BAIDU = 'https://pan.baidu.com/s/1Iva7y3d27ZWJe5-9DuWReA?pwd=nevj';
       const list = document.getElementById('videoList');
       list.innerHTML = videoWorks.map((v, i) => {
-        const thumb = `assets/thumbnails/${encodeURIComponent(v.file + '.png')}`;
+        const thumb = `assets/thumbnails/${encodeURIComponent(v.file + '.jpg')}`;
         return `
         <a class="video-card" href="${BAIDU}" target="_blank">
           <div class="video-thumb">
@@ -1220,7 +1220,7 @@
       const v = videoWorks[index];
       const modal = document.getElementById('videoModal');
       document.getElementById('videoModalTitle').textContent = v.title;
-      document.getElementById('videoModalThumb').src = 'assets/thumbnails/' + encodeURIComponent(v.file + '.png');
+      document.getElementById('videoModalThumb').src = 'assets/thumbnails/' + encodeURIComponent(v.file + '.jpg');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
