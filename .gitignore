@@ -1,0 +1,6 @@
+assets/videos/
+gen_thumbs.py
+gen_thumbs_sharp.py
+compress_photos.py
+fix_uppercase.py
+.DS_Store

@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>张韶瑾 · 个人作品集</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --border: rgba(255,255,255,0.07);
+      --accent: #c8a96e;
+      --accent2: #e8c98e;
+      --text: #e8e8e8;
+      --text2: #a0a0a0;
+      --text3: #606060;
+      --radius: 12px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'PingFang SC', 'Noto Serif SC', 'Source Han Serif SC', Georgia, serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+      position: relative;
+      background: radial-gradient(ellipse at 50% 40%, rgba(200,169,110,0.08) 0%, transparent 70%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(200,169,110,0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(200,169,110,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border: 1px solid rgba(200,169,110,0.4);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-name {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 16px;
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s ease 0.3s both;
+    }
+    .hero-nav a {
+      padding: 12px 28px;
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 100px;
+      font-size: 14px;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      background: rgba(200,169,110,0.03);
+    }
+    .hero-nav a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,169,110,0.08);
+      transform: translateY(-2px);
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text3);
+      font-size: 12px;
+      letter-spacing: 2px;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text3), transparent);
+      animation: scrollLine 1.5s ease-in-out infinite;
+    }
+
+    /* ===== Section ===== */
+    .section {
+      padding: 100px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .section-num {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 300;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 15px;
+      color: var(--text2);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    .section-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+      margin: 24px auto 0;
+    }
+
+    /* ===== Part 1: AI 作品 ===== */
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .ai-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .ai-card:hover {
+      border-color: rgba(200,169,110,0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(200,169,110,0.08);
+    }
+    .ai-card-preview {
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-card-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+      transform: scale(1);
+      transition: transform 0.4s ease;
+    }
+    .ai-card:hover .ai-card-preview iframe { transform: scale(1.02); }
+    .ai-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .ai-card:hover .ai-card-overlay { opacity: 1; }
+    .ai-card-visit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .ai-card-visit svg { width: 16px; height: 16px; }
+    .ai-card-body {
+      padding: 24px;
+    }
+    .ai-card-tag {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .ai-card-title {
+      font-size: 22px;
+      color: #fff;
+      font-weight: 400;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+    .ai-card-desc {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .ai-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--accent);
+      border: 1px solid rgba(200,169,110,0.3);
+      padding: 8px 20px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+    .ai-card-link:hover {
+      background: rgba(200,169,110,0.1);
+      border-color: var(--accent);
+    }
+
+    /* ===== Part 2: 自媒体 (New Layout) ===== */
+    .social-platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .social-platform-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .social-platform-item:hover { box-shadow: var(--shadow); }
+    .social-platform-item.bilibili:hover { border-color: rgba(0,161,214,0.35); }
+    .social-platform-item.xiaohongshu:hover { border-color: rgba(255,78,84,0.35); }
+    .social-platform-item.douyin:hover { border-color: rgba(255,255,255,0.2); }
+    .social-platform-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 20px 0;
+    }
+    .social-platform-header .social-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .bilibili .social-icon { background: rgba(0,161,214,0.15); }
+    .xiaohongshu .social-icon { background: rgba(255,78,84,0.15); }
+    .douyin .social-icon { background: rgba(255,255,255,0.08); }
+    .social-platform-header > div:nth-child(2) { flex: 1; }
+    .social-platform-header .social-name {
+      font-size: 16px; color: #fff; font-weight: 500;
+    }
+    .social-platform-header .social-handle {
+      font-size: 12px; color: var(--text3); margin-top: 2px;
+    }
+    .social-platform-header .social-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; padding: 7px 14px;
+      border-radius: 100px; border: 1px solid;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .bilibili .social-link { color: #00a1d6; border-color: rgba(0,161,214,0.3); }
+    .bilibili .social-link:hover { background: rgba(0,161,214,0.12); border-color: #00a1d6; }
+    .xiaohongshu .social-link { color: #ff4e54; border-color: rgba(255,78,84,0.3); }
+    .xiaohongshu .social-link:hover { background: rgba(255,78,84,0.12); border-color: #ff4e54; }
+    .douyin .social-link { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .douyin .social-link:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+    .social-video-preview {
+      display: block;
+      margin: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .social-video-preview:hover { border-color: rgba(200,169,110,0.3); transform: scale(1.01); }
+    .social-video-thumb {
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    .social-video-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .social-video-preview:hover .social-video-thumb img { transform: scale(1.04); }
+    .social-video-play {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.3s ease;
+    }
+    .social-video-preview:hover .social-video-play { background: rgba(0,0,0,0.15); }
+    .social-video-play svg {
+      width: 44px; height: 44px;
+      color: rgba(255,255,255,0.92);
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+    }
+    .social-video-info {
+      padding: 12px 14px;
+      background: var(--surface2);
+    }
+    .social-video-title {
+      font-size: 13px; color: var(--text); line-height: 1.4;
+      margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .social-video-stats {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; color: var(--text3);
+    }
+    .social-video-badge {
+      background: rgba(200,169,110,0.12);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 11px;
+    }
+    /* wechat card hover */
+    .wechat-card:hover { border-color: rgba(7,193,96,0.35) !important; }
+
+    /* ===== Part 3: 创作作品 ===== */
+    /* Tab Nav */
+    .works-tabs {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-bottom: 48px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 48px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 11px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-family: inherit;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #000;
+      font-weight: 500;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Photography Gallery */
+    .photo-category-nav {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .cat-btn {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      color: var(--text2);
+      font-family: inherit;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .cat-btn.active, .cat-btn:hover {
+      border-color: rgba(200,169,110,0.5);
+      color: var(--accent);
+    }
+    .photo-tip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .photo-tip a {
+      color: var(--accent);
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      transition: border-color 0.2s;
+    }
+    .photo-tip a:hover { border-color: var(--accent); }
+    .photo-grid {
+      columns: 3 250px;
+      gap: 12px;
+    }
+    .photo-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .photo-item img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .photo-item:hover img { transform: scale(1.04); }
+    .photo-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-item:hover .photo-item-overlay { opacity: 1; }
+    .photo-item-overlay svg { width: 32px; height: 32px; color: white; }
+
+    /* Video List */
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .video-card:hover {
+      border-color: rgba(200,169,110,0.3);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .video-thumb {
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+      position: relative;
+      overflow: hidden;
+    }
+    .video-thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      transition: background 0.3s ease;
+    }
+    .video-card:hover .video-play-btn { background: rgba(0,0,0,0.2); }
+    .video-play-btn svg { width: 48px; height: 48px; color: rgba(255,255,255,0.9); }
+    .video-info {
+      padding: 16px;
+    }
+    .video-num {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .video-title {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .video-tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 10px;
+      background: rgba(200,169,110,0.1);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    /* Text Works */
+    .text-list {
+      display: grid;
+      gap: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .text-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .text-card:hover {
+      border-color: rgba(200,169,110,0.3);
+      transform: translateX(6px);
+    }
+    .text-card-icon {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      background: rgba(200,169,110,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .text-card-content { flex: 1; }
+    .text-card-label {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .text-card-title {
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+    .text-card-desc {
+      font-size: 13px;
+      color: var(--text3);
+    }
+    .text-card-arrow {
+      color: var(--text3);
+      transition: all 0.3s ease;
+    }
+    .text-card:hover .text-card-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    /* ===== Lightbox ===== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .lightbox-close:hover { background: rgba(200,169,110,0.2); border-color: var(--accent); }
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    .lightbox-nav:hover { background: rgba(200,169,110,0.2); border-color: var(--accent); }
+    .lightbox-prev { left: 24px; }
+    .lightbox-next { right: 24px; }
+    .lightbox-counter {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+    }
+
+    /* Video Modal */
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.97);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .video-modal.open { display: flex; }
+    .video-modal-inner {
+      width: 100%;
+      max-width: 900px;
+    }
+    .video-modal-title {
+      text-align: center;
+      color: var(--text2);
+      font-size: 15px;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    .video-modal video {
+      width: 100%;
+      border-radius: 8px;
+      max-height: 75vh;
+    }
+    .video-modal-close {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .video-modal video { display: none; }
+    .video-modal-thumb-wrap { margin-bottom: 20px; }
+    .video-modal-download { text-align: center; }
+    .video-modal-dl-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #000;
+      font-family: inherit; font-size: 15px; font-weight: 500;
+      padding: 14px 32px; border-radius: 100px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .video-modal-dl-btn:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,169,110,0.3); }
+
+    /* ===== Footer ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .footer-name {
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+    .footer-desc {
+      font-size: 13px;
+      color: var(--text3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.3); }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .section { padding: 64px 20px; }
+      .photo-grid { columns: 2 160px; }
+      .text-card { flex-direction: column; text-align: center; }
+      .text-card-arrow { display: none; }
+    }
+    @media (max-width: 480px) {
+      .photo-grid { columns: 2 120px; }
+      .works-tabs { max-width: 100%; }
+      .tab-btn { font-size: 12px; padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-badge">Portfolio · 作品集</div>
+    <h1 class="hero-name"><span>张</span>韶瑾</h1>
+    <nav class="hero-nav">
+      <a href="#ai-works">AI 作品</a>
+      <a href="#social">自媒体</a>
+      <a href="#creations">创作作品</a>
+    </nav>
+    <div class="scroll-hint">SCROLL</div>
+  </section>
+
+  <!-- ===== PART 1: AI 作品 ===== -->
+  <section class="section" id="ai-works">
+    <div class="section-header fade-up">
+      <div class="section-num">Part 01</div>
+      <h2 class="section-title">AI Vibe Coding 作品</h2>
+      <p class="section-desc">用 AI 协作创造，将想法化为真实可用的产品</p>
+      <div class="section-divider"></div>
+    </div>
+    <div class="ai-grid fade-up">
+      <!-- 浮光掠影 -->
+      <div class="ai-card" onclick="window.open('https://douban-recall.onrender.com/', '_blank')">
+        <div class="ai-card-preview">
+          <iframe src="https://douban-recall.onrender.com/" title="浮光掠影预览" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="ai-card-overlay">
+            <div class="ai-card-visit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              访问网站
+            </div>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-tag">AI Vibe Coding · 个人工具</div>
+          <h3 class="ai-card-title">浮光掠影</h3>
+          <p class="ai-card-desc">个人豆瓣书影音集合网站，记录阅读与观影的每一刻光影，让生命中的文化碎片有迹可循。</p>
+          <a href="https://douban-recall.onrender.com/" target="_blank" class="ai-card-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            douban-recall.onrender.com
+          </a>
+        </div>
+      </div>
+
+      <!-- TOP测测测 -->
+      <div class="ai-card" onclick="window.open('https://shaojindoudou.github.io/top-quiz/', '_blank')">
+        <div class="ai-card-preview">
+          <iframe src="https://shaojindoudou.github.io/top-quiz/" title="TOP测测测预览" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="ai-card-overlay">
+            <div class="ai-card-visit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              访问网站
+            </div>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-tag">AI Vibe Coding · 趣味测试</div>
+          <h3 class="ai-card-title">TOP 测测测</h3>
+          <p class="ai-card-desc">登陆少年组合相关趣味测试网站，用互动测试探索你与 TOP 成员的专属连接与默契指数。</p>
+          <a href="https://shaojindoudou.github.io/top-quiz/" target="_blank" class="ai-card-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            shaojindoudou.github.io/top-quiz
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PART 2: 自媒体 ===== -->
+  <section class="section" id="social" style="background: radial-gradient(ellipse at 50% 50%, rgba(200,169,110,0.04) 0%, transparent 70%); max-width: 100%; padding-left: 0; padding-right: 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+      <div class="section-header fade-up">
+        <div class="section-num">Part 02</div>
+        <h2 class="section-title">自媒体账号</h2>
+        <p class="section-desc">演唱会视频直拍与剪辑，记录现场最真实的光与热度</p>
+        <div class="section-divider"></div>
+      </div>
+      <div class="social-platforms-grid fade-up">
+
+        <!-- B站 -->
+        <div class="social-platform-item bilibili">
+          <div class="social-platform-header">
+            <div class="social-icon">📺</div>
+            <div>
+              <div class="social-name">哔哩哔哩</div>
+              <div class="social-handle">演唱会视频直拍与剪辑创作</div>
+            </div>
+            <a href="https://space.bilibili.com/3546803146328493?spm_id_from=333.1007.0.0" target="_blank" class="social-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              前往主页
+            </a>
+          </div>
+          <a href="https://www.bilibili.com/video/BV1UrzhBAEak" target="_blank" class="social-video-preview">
+            <div class="social-video-thumb">
+              <img src="assets/social/bilibili_top.jpg" alt="B站最高播放视频封面" loading="lazy" />
+              <div class="social-video-play">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+            </div>
+            <div class="social-video-info">
+              <div class="social-video-title">【TF四代】MANTA 4K饭拍 高清侧面视角</div>
+              <div class="social-video-stats">
+                <span>▶ 36,339 播放</span>
+                <span class="social-video-badge">最高播放</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- 小红书 -->
+        <div class="social-platform-item xiaohongshu">
+          <div class="social-platform-header">
+            <div class="social-icon">📖</div>
+            <div>
+              <div class="social-name">小红书</div>
+              <div class="social-handle">演唱会视频直拍与剪辑创作</div>
+            </div>
+            <a href="https://www.xiaohongshu.com/user/profile/6739abba000000001c018fd5" target="_blank" class="social-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              前往主页
+            </a>
+          </div>
+          <a href="https://www.xiaohongshu.com/user/profile/6739abba000000001c018fd5" target="_blank" class="social-video-preview">
+            <div class="social-video-thumb">
+              <img src="https://sns-webpic-qc.xhscdn.com/202608161452/cefeeec9263c70b19414cfd8663bf657/spectrum/1040g34o31rpnbt4120105ppplet733ulqg48bm0!nc_n_webp_mw_1" alt="小红书最高点赞笔记封面" loading="lazy" />
+              <div class="social-video-play">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+            </div>
+            <div class="social-video-info">
+              <div class="social-video-title">无官摄manta的新饭拍！</div>
+              <div class="social-video-stats">
+                <span>❤ 3,008 点赞</span>
+                <span class="social-video-badge">最高点赞</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- 抖音 -->
+        <div class="social-platform-item douyin">
+          <div class="social-platform-header">
+            <div class="social-icon">🎵</div>
+            <div>
+              <div class="social-name">抖音</div>
+              <div class="social-handle">演唱会视频直拍与剪辑创作</div>
+            </div>
+            <a href="https://www.douyin.com/user/MS4wLjABAAAAdFWYa7p2gYVDWvozo0LOi4FBGVBqqygqHx2efhzfxmhaHFPm7nXmx5e8pmopG_D3" target="_blank" class="social-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              前往主页
+            </a>
+          </div>
+          <a href="https://www.douyin.com/video/7658318282981657902" target="_blank" class="social-video-preview">
+            <div class="social-video-thumb">
+              <img src="assets/social/douyin_top.jpg" alt="抖音最高播放视频封面" loading="lazy" />
+              <div class="social-video-play">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+              </div>
+            </div>
+            <div class="social-video-info">
+              <div class="social-video-title">想念我家五男神 那时候我还没爱上他们...</div>
+              <div class="social-video-stats">
+                <span>▶ 5,522 播放</span>
+                <span class="social-video-badge">最高播放</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PART 3: 创作作品 ===== -->
+  <section class="section" id="creations">
+    <div class="section-header fade-up">
+      <div class="section-num">Part 03</div>
+      <h2 class="section-title">创作作品</h2>
+      <p class="section-desc">摄影、影像与文字，是我观察世界的三重视角</p>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Tab Nav -->
+    <div class="works-tabs fade-up">
+      <button class="tab-btn active" onclick="switchTab('photo')">📷 摄影作品</button>
+      <button class="tab-btn" onclick="switchTab('video')">🎬 视频作品</button>
+      <button class="tab-btn" onclick="switchTab('text')">✍️ 文字作品</button>
+    </div>
+
+    <!-- === 摄影 === -->
+    <div class="tab-panel active" id="tab-photo">
+      <div class="photo-category-nav">
+        <button class="cat-btn active" onclick="filterPhotos('all', this)">全部</button>
+        <button class="cat-btn" onclick="filterPhotos('portrait', this)">人像摄影</button>
+        <button class="cat-btn" onclick="filterPhotos('humanistic', this)">人文摄影</button>
+        <button class="cat-btn" onclick="filterPhotos('scenery', this)">风景及静物</button>
+      </div>
+      <div class="photo-tip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        网页展示为压缩版预览，高清原图可前往
+        <a href="https://pan.baidu.com/s/1Iva7y3d27ZWJe5-9DuWReA?pwd=nevj" target="_blank">百度网盘查看</a>
+        （提取码: nevj）
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+
+    <!-- === 视频 === -->
+    <div class="tab-panel" id="tab-video">
+      <div class="video-list" id="videoList"></div>
+    </div>
+
+    <!-- === 文字 === -->
+    <div class="tab-panel" id="tab-text">
+      <div class="text-list" id="textList"></div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="footer-name">张韶瑾</div>
+    <div class="footer-desc">影像创作者 · 自媒体人 · AI Vibe Coder &nbsp;·&nbsp; © 2025</div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); navLightbox(-1)">‹</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); navLightbox(1)">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+  <!-- Video Modal -->
+  <div class="video-modal" id="videoModal" onclick="closeVideoModal(event)">
+    <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+    <div class="video-modal-inner">
+      <div class="video-modal-title" id="videoModalTitle"></div>
+      <div class="video-modal-thumb-wrap">
+        <img id="videoModalThumb" src="" alt="" style="width:100%;border-radius:8px;display:block;" />
+      </div>
+      <div class="video-modal-download">
+        <p style="color:var(--text2);font-size:14px;text-align:center;margin-bottom:16px;line-height:1.8;">
+          视频文件较大，可前往百度网盘下载观看👇
+        </p>
+        <a href="https://pan.baidu.com/s/1Iva7y3d27ZWJe5-9DuWReA?pwd=nevj" target="_blank" class="video-modal-dl-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          百度网盘下载（提取码: nevj）
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Data =====
+    const photos = {
+      portrait: [
+        'assets/photos/portrait/1.jpg','assets/photos/portrait/2.jpg','assets/photos/portrait/3.jpg',
+        'assets/photos/portrait/4.jpg','assets/photos/portrait/5.jpg','assets/photos/portrait/6.jpg',
+        'assets/photos/portrait/7.jpg','assets/photos/portrait/8.jpg','assets/photos/portrait/9.jpg',
+        'assets/photos/portrait/10.jpg','assets/photos/portrait/11.jpg','assets/photos/portrait/12.jpg',
+        'assets/photos/portrait/13.jpg','assets/photos/portrait/14.jpg','assets/photos/portrait/15.jpg',
+        'assets/photos/portrait/16.jpg'
+      ],
+      humanistic: [
+        'assets/photos/humanistic/1.jpg','assets/photos/humanistic/2.jpg','assets/photos/humanistic/3.jpg',
+        'assets/photos/humanistic/4.jpg','assets/photos/humanistic/5.jpg','assets/photos/humanistic/6.jpg'
+      ],
+      scenery: [
+        'assets/photos/scenery/1.jpg','assets/photos/scenery/2.jpg','assets/photos/scenery/3.jpg',
+        'assets/photos/scenery/4.jpg','assets/photos/scenery/5.jpg','assets/photos/scenery/6.jpg',
+        'assets/photos/scenery/7.jpg','assets/photos/scenery/8.jpg','assets/photos/scenery/9.jpg',
+        'assets/photos/scenery/10.jpg','assets/photos/scenery/11.jpg','assets/photos/scenery/12.jpg',
+        'assets/photos/scenery/13.jpg','assets/photos/scenery/14.jpg','assets/photos/scenery/15.jpg',
+        'assets/photos/scenery/16.jpg','assets/photos/scenery/17.jpg','assets/photos/scenery/18.jpg',
+        'assets/photos/scenery/19.jpg'
+      ]
+    };
+
+    const videoWorks = [
+      { num: '01', title: '毕业短片《沿途》', desc: '负责剪辑与策划', tag: '剧情短片', file: '01、毕业短片《沿途》（负责剪辑与策划）.mp4' },
+      { num: '02', title: '厦门旅拍《we are infinite》', desc: '', tag: '旅拍', file: '02、厦门旅拍《we are infinite》.mp4' },
+      { num: '03', title: '情人节主题短片《lover》', desc: '', tag: '主题短片', file: '03、情人节主题短片《lover》.mp4' },
+      { num: '04', title: '日系短片《夏日恋歌》', desc: '', tag: '日系风格', file: '04、日系短片《夏日恋歌》.mp4' },
+      { num: '05', title: '卓别林默片仿拍', desc: '', tag: '模仿练习', file: '05、卓别林默片仿拍.mp4' },
+      { num: '06', title: '运动镜头练习', desc: '', tag: '摄影练习', file: '06、运动镜头.mp4' },
+      { num: '07', title: '厦大校园木棉花风景短片', desc: '', tag: '风景纪录', file: '07、厦大校园木棉花风景短片.mp4' },
+      { num: '08', title: '聋哑人纪录片《蔡鸿美的一天》', desc: '', tag: '人物纪录片', file: '08、聋哑人纪录片《蔡鸿美的一天》.mp4' },
+      { num: '09', title: '郑成功主题纪录片《闽海雄风郑成功——藤牌和宋江阵》', desc: '', tag: '历史纪录片', file: '09、郑成功主题纪录片《闽海雄风郑成功——藤牌和宋江阵》.mp4' },
+      { num: '10', title: '非遗纪录片《吟风于夏结武缘》', desc: '', tag: '非遗纪录片', file: '10、非遗纪录片《吟风于夏结武缘》.mp4' },
+      { num: '11', title: '治愈短片《收集厦大校园内的100个笑容》', desc: '', tag: '治愈短片', file: '11、治愈短片《收集厦大校园内的100个笑容》.mp4' },
+      { num: '12', title: '成长短片《你好，20岁》', desc: '', tag: '成长主题', file: '12、成长短片《你好，20岁》.mp4' },
+      { num: '13', title: '电影《红海行动》预告片', desc: '自我练习', tag: '剪辑练习', file: '13、电影《红海行动》预告片（自我练习）.mp4' },
+      { num: '14', title: '电影《疯狂动物城》预告片', desc: '自我练习', tag: '剪辑练习', file: '14、电影《疯狂动物城》预告片（自我练习）.mp4' },
+      { num: '15', title: '特效制作初尝试', desc: '', tag: '特效制作', file: '15、特效制作初尝试.mp4' },
+      { num: '16', title: '正大杯比赛 AE 制作片头视频', desc: '', tag: 'AE 动效', file: '16、正大杯比赛AE制作片头视频.mp4' },
+    ];
+
+    const textWorks = [
+      {
+        icon: '📰',
+        label: '深度报道 · PDF',
+        title: '深度报道作品《走在田埂上的非遗传承人》',
+        desc: '刊登在大连晚报',
+        href: 'assets/texts/1%E3%80%81%E6%B7%B1%E5%BA%A6%E6%8A%A5%E9%81%93%E4%BD%9C%E5%93%81%E3%80%8A%E8%B5%B0%E5%9C%A8%E7%94%B0%E5%9F%82%E4%B8%8A%E7%9A%84%E9%9D%9E%E9%81%97%E4%BC%A0%E6%89%BF%E4%BA%BA%E3%80%8B%E5%88%8A%E7%99%BB%E5%9C%A8%E5%A4%A7%E8%BF%9E%E6%99%9A%E6%8A%A5.pdf',
+        hint: ''
+      },
+      {
+        icon: '📱',
+        label: '热点话题公众号推文 · 微信',
+        title: '《当男明星面对两性问题这样说sorry》',
+        desc: '⚠️ 提示：推文中每张图片均需点击才能查看完整内容',
+        href: 'https://mp.weixin.qq.com/s/FWWss6WrSz5hwk9-eXyzbg',
+        hint: 'wechat'
+      },
+      {
+        icon: '✍️',
+        label: '新闻评论 · 微信',
+        title: '新闻评论作品（入选红辣椒评论青椒计划）',
+        desc: '',
+        href: 'https://mp.weixin.qq.com/s/-bQqaXwlu9g9gN3HP_kfTw',
+        hint: 'wechat'
+      }
+    ];
+
+    // ===== Tab Switching =====
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // ===== Photo Gallery =====
+    let currentPhotos = [];
+    let currentPhotoIndex = 0;
+    let currentCategory = 'all';
+
+    function getAllPhotos() {
+      return [...photos.portrait, ...photos.humanistic, ...photos.scenery];
+    }
+
+    function renderPhotos(category) {
+      currentCategory = category;
+      const grid = document.getElementById('photoGrid');
+      const list = category === 'all' ? getAllPhotos() : photos[category] || [];
+      currentPhotos = list;
+      grid.innerHTML = list.map((src, i) => `
+        <div class="photo-item" onclick="openLightbox(${i})">
+          <img src="${src}" alt="摄影作品 ${i+1}" loading="lazy" />
+          <div class="photo-item-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterPhotos(category, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPhotos(category);
+    }
+
+    // ===== Lightbox =====
+    function openLightbox(index) {
+      currentPhotoIndex = index;
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('open');
+      updateLightbox();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightbox() {
+      document.getElementById('lightboxImg').src = currentPhotos[currentPhotoIndex];
+      document.getElementById('lightboxCounter').textContent = `${currentPhotoIndex + 1} / ${currentPhotos.length}`;
+    }
+
+    function navLightbox(dir) {
+      currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
+      updateLightbox();
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightbox') && e.target !== document.querySelector('.lightbox-close')) return;
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('lightbox').classList.contains('open')) {
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+        if (e.key === 'ArrowRight') navLightbox(1);
+        if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+      }
+      if (document.getElementById('videoModal').classList.contains('open')) {
+        if (e.key === 'Escape') closeVideoModal();
+      }
+    });
+
+    // ===== Video List =====
+    function renderVideos() {
+      const list = document.getElementById('videoList');
+      list.innerHTML = videoWorks.map((v, i) => {
+        const thumb = `assets/thumbnails/${encodeURIComponent(v.file + '.png')}`;
+        return `
+        <div class="video-card" onclick="openVideo(${i})">
+          <div class="video-thumb">
+            <img src="${thumb}" alt="${v.title} 封面" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+            <div class="video-play-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+          <div class="video-info">
+            <div class="video-num">NO.${v.num}</div>
+            <div class="video-title">${v.title}${v.desc ? '<br><small style="color:var(--text3);font-size:12px">（'+v.desc+'）</small>' : ''}</div>
+            <span class="video-tag">${v.tag}</span>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function openVideo(index) {
+      const v = videoWorks[index];
+      const modal = document.getElementById('videoModal');
+      document.getElementById('videoModalTitle').textContent = v.title;
+      document.getElementById('videoModalThumb').src = 'assets/thumbnails/' + encodeURIComponent(v.file + '.png');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal(e) {
+      if (e && e.target !== document.getElementById('videoModal') && e.target !== document.querySelector('.video-modal-close')) return;
+      document.getElementById('videoModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ===== Text Works =====
+    function renderTexts() {
+      const list = document.getElementById('textList');
+      list.innerHTML = textWorks.map(t => {
+        const isWechat = t.hint === 'wechat';
+        const wechatBadge = isWechat ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#07c160;border:1px solid rgba(7,193,96,0.3);border-radius:4px;padding:2px 8px;margin-left:8px;">微信推文</span>` : '';
+        return `
+          <a href="${t.href}" target="_blank" class="text-card${isWechat ? ' wechat-card' : ''}">
+            <div class="text-card-icon">${t.icon}</div>
+            <div class="text-card-content">
+              <div class="text-card-label">${t.label}${wechatBadge}</div>
+              <div class="text-card-title">${t.title}</div>
+              ${t.desc ? `<div class="text-card-desc">${t.desc}</div>` : ''}
+            </div>
+            <div class="text-card-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    // ===== Scroll Animations =====
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ===== Init =====
+    renderPhotos('all');
+    renderVideos();
+    renderTexts();
+  </script>
+</body>
+</html>
