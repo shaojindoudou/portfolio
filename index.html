@@ -426,7 +426,22 @@
       border-color: rgba(200,169,110,0.5);
       color: var(--accent);
     }
-    .photo-tip {
+    .video-tip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .video-tip a {
+      color: var(--accent);
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      transition: border-color 0.2s;
+    }
+    .video-tip a:hover { border-color: var(--accent); }
       display: flex;
       align-items: center;
       gap: 7px;
@@ -982,6 +997,12 @@
 
     <!-- === 视频 === -->
     <div class="tab-panel" id="tab-video">
+      <div class="video-tip">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        视频文件较大，点击封面可前往
+        <a href="https://pan.baidu.com/s/1Iva7y3d27ZWJe5-9DuWReA?pwd=nevj" target="_blank">百度网盘下载观看</a>
+        （提取码: nevj）
+      </div>
       <div class="video-list" id="videoList"></div>
     </div>
 
@@ -1174,11 +1195,12 @@
 
     // ===== Video List =====
     function renderVideos() {
+      const BAIDU = 'https://pan.baidu.com/s/1Iva7y3d27ZWJe5-9DuWReA?pwd=nevj';
       const list = document.getElementById('videoList');
       list.innerHTML = videoWorks.map((v, i) => {
         const thumb = `assets/thumbnails/${encodeURIComponent(v.file + '.png')}`;
         return `
-        <div class="video-card" onclick="openVideo(${i})">
+        <a class="video-card" href="${BAIDU}" target="_blank">
           <div class="video-thumb">
             <img src="${thumb}" alt="${v.title} 封面" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
             <div class="video-play-btn">
@@ -1190,7 +1212,7 @@
             <div class="video-title">${v.title}${v.desc ? '<br><small style="color:var(--text3);font-size:12px">（'+v.desc+'）</small>' : ''}</div>
             <span class="video-tag">${v.tag}</span>
           </div>
-        </div>
+        </a>
       `}).join('');
     }
 
