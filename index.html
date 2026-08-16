@@ -458,20 +458,23 @@
     }
     .photo-tip a:hover { border-color: var(--accent); }
     .photo-grid {
-      columns: 3 250px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 12px;
     }
     .photo-item {
       break-inside: avoid;
-      margin-bottom: 12px;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
       position: relative;
+      aspect-ratio: 3/4;
     }
     .photo-item img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
       transition: transform 0.4s ease;
       display: block;
     }
